@@ -1,0 +1,31 @@
+namespace "http.middleware.v1"
+
+interface Redirect @service {
+  initialize[config: Config]
+  handle[request: HttpRequest]: HttpResponse
+}
+
+type Config {
+}
+
+alias Headers = { string: [string] }
+
+type HttpRequest {
+  method: string
+  uri: string
+  headers: Headers
+  body: bytes?
+}
+
+type HttpResponse {
+  uri: string
+  request: Set
+  response: Set
+  status: u16
+  body: bytes?
+}
+
+type Set {
+  setHeaders: Headers
+  removeHeaders: [string]
+}

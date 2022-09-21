@@ -1,0 +1,41 @@
+# TinyGo code generation
+spec: middleware.apexlang
+config:
+  package: middleware
+  module: github.com/wapc/examples/middleware
+generates:
+  pkg/middleware/interfaces.go:
+    module: '@apexlang/codegen/go'
+    visitorClass: InterfacesVisitor
+  pkg/middleware/msgpack.go:
+    module: '@apexlang/codegen/go'
+    visitorClass: MsgPackVisitor
+  pkg/middleware/export.go:
+    module: '@wapc/codegen/tinygo'
+    visitorClass: ExportVisitor
+  pkg/middleware/middleware.go:
+    ifNotExists: true
+    module: '@apexlang/codegen/go'
+    visitorClass: ScaffoldVisitor
+    config:
+      types:
+        - service
+  cmd/main.go:
+    ifNotExists: false
+    module: '@wapc/codegen/tinygo'
+    visitorClass: MainVisitor
+    config:
+      import: github.com/wapc/examples/middleware/pkg/middleware
+---
+# AssemblyScript code generation
+spec: middleware.apexlang
+generates:
+  assembly/module.ts:
+    module: '@wapc/codegen/assemblyscript'
+    visitorClass: ModuleVisitor
+  assembly/index.ts:
+    ifNotExists: true
+    module: '@wapc/codegen/assemblyscript'
+    visitorClass: ScaffoldVisitor
+    config:
+      package: './module'

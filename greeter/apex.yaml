@@ -1,0 +1,28 @@
+spec: spec.apexlang
+config:
+  package: greeter
+  module: github.com/wapc/examples/greeter
+generates:
+  pkg/greeter/interfaces.go:
+    module: '@apexlang/codegen/go'
+    visitorClass: InterfacesVisitor
+  pkg/greeter/msgpack.go:
+    module: '@apexlang/codegen/go'
+    visitorClass: MsgPackVisitor
+  pkg/greeter/wapc.go:
+    module: '@wapc/codegen/tinygo'
+    visitorClass: ExportVisitor
+  pkg/greeter/services.go:
+    ifNotExists: true
+    module: '@apexlang/codegen/go'
+    visitorClass: ScaffoldVisitor
+    config:
+      types:
+        - service
+  cmd/main.go:
+    ifNotExists: false
+    module: '@wapc/codegen/tinygo'
+    visitorClass: MainVisitor
+    config:
+      import: github.com/wapc/examples/greeter/pkg/greeter
+
